@@ -1,5 +1,4 @@
 using System;
-using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Events;
 using Systems.Mob;
@@ -195,7 +194,7 @@ namespace Systems.MobAIs
 			}
 		}
 
-		private void MonitorFleeingTime()
+		protected void MonitorFleeingTime()
 		{
 			if (mobFlee.activated && fleeTimeMax > 0)
 			{
@@ -217,6 +216,7 @@ namespace Systems.MobAIs
 		{
 			if (damageAttempts >= maxDamageAttempts)
 			{
+				damageAttempts = 0;
 				return;
 			}
 

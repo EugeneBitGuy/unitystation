@@ -3,7 +3,6 @@ using Systems.Explosions;
 using UnityEngine;
 using Mirror;
 using NaughtyAttributes;
-using Core.Directionals;
 using Effects.Overlays;
 using Logs;
 
@@ -148,6 +147,25 @@ namespace Systems.Mob
 			}
 
 			spriteHandler.SetCatalogueIndexSprite(index, network);
+		}
+
+		public void SetNewSprite(SpriteDataSO spriteSO, bool network = false)
+		{
+			if (spriteHandler == null)
+			{
+				Loggy.LogWarning($"{nameof(SpriteHandler)} missing on {gameObject}!", Category.Mobs);
+				return;
+			}
+
+			var catalogue = spriteHandler.GetSubCatalogue();
+
+			int possibleLastIndex =  (UsesDeadSprite ? 1 : 0) + (UsesKnockedDownSprite ? 1 : 0);
+
+			if(catalogue.Count == possibleLastIndex + 1)
+				catalogue.Add(spriteSO);
+
+			catalogue[^1] = spriteSO;
+			spriteHandler.SetCatalogueIndexSprite(catalogue.Count - 1, network);;
 		}
 
 		/// <summary>

@@ -10,6 +10,30 @@ public class ConeOfSight : MonoBehaviour
 	[Range(0, 360)] [Header("Field of View in Degrees")]
 	public float fieldOfView = 180f;
 
+	public List<GameObject> GetObjectInFieldOfView(LayerMask hitMask, LayerTypeSelection hitLayers, float lengthOfSight)
+	{
+		List<GameObject> hitColls = new List<GameObject>();
+
+		var Hits = Physics2D.OverlapCircleAll(transform.position, lengthOfSight, hitMask);
+
+		foreach (var hit in Hits)
+		{
+
+			var RayHit = MatrixManager.RayCast(transform.position, Vector2.zero, lengthOfSight, hitLayers,
+				WorldTo: hit.gameObject.transform.position);
+
+			if (RayHit.ItHit == false) //No obstructions
+			{
+				hitColls.Add(hit.gameObject);
+			}
+
+		}
+
+
+
+		return hitColls;
+	}
+
 	/// <summary>
 	/// Returns all colliders found in the cone of sight
 	/// Provide the direction to look and
